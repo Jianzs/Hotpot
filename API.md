@@ -1,12 +1,14 @@
 # Hotpot API
 
 > 临时域名： http://hotpot.zhengsj.top   
-未部署  
+已部署  
 发送与接受都是JSON  
 以示例表示，不懂的联系我。。。
 
 ## 用户
 ### 登录
+> **不能使用**，没有微信appid，token 可用
+
 * URL: /user/login
 * METHOD: POST
 * REQUEST:
@@ -23,7 +25,7 @@
         "message": "SUCCESS",
         "data": {
             "isNew": true,
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjowLCJleHAiOjE1Mjk0ODMyMDAsInVzZXJJZCI6MX0.GfJg0McLSuDLcvSoXpPRgpiqMEwdSsTVes58mtFAEyE"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjowLCJleHAiOjE1Mjk0ODYzMTEsInVzZXJJZCI6Mn0.3Zv0FlLopdZVYWHB8l3Uw3Fz90LyhUBvNLxvn4TRXAU"
         }
     }
     ```
