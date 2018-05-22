@@ -55,6 +55,29 @@
     }
     ```
 
+### 获取信息
+* URL： /user/info
+* METHOD: GET
+* REQUEST: Null
+* RESPONSE:
+    ```json
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {
+            "info": {
+                "avatar": "/image/url",
+                "birthday": "2018-05-30T00:00:00.000+0000",
+                "collage": "西安电子科技大学",
+                "gender": 1,
+                "grade": "大一",
+                "username": "jianzs",
+                "location": "陕西西安"
+            }
+        }
+    }
+    ```
+
 ### 获取积分
 * URL： /user/score
 * METHOD: GET

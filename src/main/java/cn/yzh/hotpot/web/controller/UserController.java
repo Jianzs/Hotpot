@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.web.controller;
 
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
+import cn.yzh.hotpot.dao.projection.UserInfoProjection;
 import cn.yzh.hotpot.exception.ConnectWechatException;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
@@ -45,6 +46,15 @@ public class UserController {
         }
     }
 
+    /**
+     * 获取用户个人信息
+     */
+    @GetMapping("/info")
+    public ResponseDto getUserInfo(HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+        UserInfoProjection userInfo = userService.getUserInfo(userId);
+        return ResponseDto.succeed().setData("info", userInfo);
+    }
     /**
      * 用户上传信息
      */

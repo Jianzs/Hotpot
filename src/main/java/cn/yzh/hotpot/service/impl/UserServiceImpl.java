@@ -2,6 +2,7 @@ package cn.yzh.hotpot.service.impl;
 
 import cn.yzh.hotpot.dao.UserDao;
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
+import cn.yzh.hotpot.dao.projection.UserInfoProjection;
 import cn.yzh.hotpot.enums.UserInfoEnum;
 import cn.yzh.hotpot.enums.UserRoleEnum;
 import cn.yzh.hotpot.exception.ConnectWechatException;
@@ -58,5 +59,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public PersonScoreProjection getScore(Integer userId) {
         return userDao.getScoreById(userId);
+    }
+
+    @Override
+    public UserInfoProjection getUserInfo(Integer userId) {
+        return userDao.getInfoById(userId);
     }
 }

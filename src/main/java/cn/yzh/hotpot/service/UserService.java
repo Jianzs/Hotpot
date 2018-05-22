@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.service;
 
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
+import cn.yzh.hotpot.dao.projection.UserInfoProjection;
 import cn.yzh.hotpot.exception.ConnectWechatException;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.entity.UserEntity;
@@ -25,4 +26,6 @@ public interface UserService {
      * 个人主页获得个人和多人积分
      */
     PersonScoreProjection getScore(Integer userId);
+
+    UserInfoProjection getUserInfo(Integer userId);
 }
