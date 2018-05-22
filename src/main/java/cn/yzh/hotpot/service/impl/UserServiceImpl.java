@@ -9,6 +9,7 @@ import cn.yzh.hotpot.exception.ConnectWechatException;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.entity.UserEntity;
 import cn.yzh.hotpot.service.UserService;
+import cn.yzh.hotpot.util.DatetimeUtil;
 import cn.yzh.hotpot.util.JWTUtil;
 import cn.yzh.hotpot.util.WechatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +32,24 @@ public class UserServiceImpl implements UserService {
         String openId = WechatUtil.getOpenId(code);
         if (openId == null) return null;
 
-        Boolean isNew = false;
         UserEntity user = userDao.getByOpenid(openId);
         if (user == null) {
-            isNew = true;
             user = new UserEntity();
+            user.setAvatar("https://avatars0.githubusercontent.com/u/20160766?s=460&v=4");
+            user.setUsername("Stranger");
+            user.setCollage("Collage");
+            user.setGender(1);
+            user.setGrade("大一");
+            user.setLocation("中国");
+            user.setBirthday(DatetimeUtil.getTodayNoonTimestamp());
+
             user.setOpenid(openId);
             user.setPersonScore(0);
             user.setPeopleScore(0);
             user.setStatus(UserInfoEnum.UNCOMPLETED.getValue());
             user = userDao.save(user);
         }
+        Boolean isNew = user.getStatus().equals(UserInfoEnum.UNCOMPLETED.getValue());
 
         return new OptionDto<>(isNew, JWTUtil.createToken(user.getId(), UserRoleEnum.ORDINARY_USER.getValue()));
     }
