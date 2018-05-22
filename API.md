@@ -7,8 +7,6 @@
 
 ## 用户
 ### 登录
-> **不能使用**，没有微信appid，token 可用
-
 * URL: /user/login
 * METHOD: POST
 * REQUEST:
@@ -68,8 +66,8 @@
         "message": "SUCCESS",
         "data": {
             "score": {
-                "peopleScore": 0,  // 多人积分
-                "personScore": 0   // 个人积分
+                "peopleScore": 0,  多人积分
+                "personScore": 0   个人积分
             }
         }
     }
