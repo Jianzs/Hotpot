@@ -68,8 +68,8 @@
         "message": "SUCCESS",
         "data": {
             "score": {
-                "peopleScore": 0,  多人积分
-                "personScore": 0   个人积分
+                "peopleScore": 0,  // 多人积分
+                "personScore": 0   // 个人积分
             }
         }
     }
@@ -175,4 +175,69 @@
         "data": {}
     }
     ```
+    
+### 完成一个任务
+* URL： /task/item
+* METHOD: POST
+* REQUEST:
+    ```json
+    {
+    	"itemId": 1,
+    	"groupId": 1
+    }
+    ```
+* RESPONSE:
+    * 成功
+        ```json
+        {
+            "status": 0,
+            "message": "SUCCESS",
+            "data": {}
+        }
+        ```
+    * 失败
+        * code
+            * 1 已经完成
+        ```json
+        {
+            "status": 1,
+            "message": "Task Already is Finished.",
+            "data": {
+                "code": 1
+            }
+        }
+        ```
 
+### 加入任务组
+* URL： /task/group/join
+* METHOD: POST
+* REQUEST:
+    ```json
+    {
+        "groupId": 1
+    }
+    ```
+* RESPONSE
+    * 成功
+        ```json
+        {
+            "status": 0,
+            "message": "SUCCESS",
+            "data": {}
+        }
+        ```
+    * 失败
+        * code
+            * 1 人数已满
+            * 2 任务组已经结束
+            * 3 已经在组中
+        ```json
+        {
+            "status": 1,
+            "message": "Already in Group.",
+            "data": {
+                "code": 3
+            }
+        }
+        ```
+    
