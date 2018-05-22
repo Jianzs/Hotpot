@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaskMemberDao extends JpaRepository<TaskMemberEntity, Integer> {
+    boolean existsByUserIdAndGroupId(Integer userId, Integer groupId);
 }

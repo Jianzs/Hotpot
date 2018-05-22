@@ -1,10 +1,10 @@
 package cn.yzh.hotpot.exception.handler;
 
-import cn.yzh.hotpot.exception.NoAuthenticationException;
 import cn.yzh.hotpot.exception.NoAuthorizationException;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -25,16 +25,22 @@ public class DefaultExceptionHandler {
         }
 
         ResponseDto responseDto = ResponseDto.failed();
-        if (e instanceof NoAuthenticationException) {
+        if (e instanceof NoAuthorizationException){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             logger.info(sb.toString());
             responseDto.setMessage(e.getMessage());
-        } else if (e instanceof NoAuthorizationException){
-            logger.info(sb.toString());
+
+        } else if (e instanceof HttpRequestMethodNotSupportedException) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            logger.warn(sb.toString());
             responseDto.setMessage(e.getMessage());
+
         } else {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             logger.error(sb.toString());
             responseDto.setMessage("Internet Server Error.");
         }
+
         return responseDto;
     }
 }

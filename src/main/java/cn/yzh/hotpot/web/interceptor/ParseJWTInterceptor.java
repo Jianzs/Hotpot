@@ -1,6 +1,6 @@
 package cn.yzh.hotpot.web.interceptor;
 
-import cn.yzh.hotpot.exception.NoAuthenticationException;
+import cn.yzh.hotpot.exception.NoAuthorizationException;
 import cn.yzh.hotpot.util.JWTUtil;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ParseJWTInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws NoAuthenticationException {
+            throws NoAuthorizationException {
         if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
             return true;
         }
@@ -32,7 +32,7 @@ public class ParseJWTInterceptor implements HandlerInterceptor {
             request.setAttribute(JWTUtil.USER_ID_KEY, uid);
             request.setAttribute(JWTUtil.USER_ROLE, role);
         } catch (SignatureVerificationException e) {
-            throw new NoAuthenticationException("Token is Wrong.");
+            throw new NoAuthorizationException("Token is Wrong.");
         }
 
         return true;

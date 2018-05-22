@@ -2,6 +2,7 @@ package cn.yzh.hotpot.web.controller;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
+import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
 import cn.yzh.hotpot.service.TaskService;
 import cn.yzh.hotpot.util.JWTUtil;
@@ -62,7 +63,7 @@ public class TaskController {
     }
 
     /**
-     * 新建任务
+     * 新建任务组
      */
     @PostMapping("/group")
     public ResponseDto createTaskGroup(@RequestBody String json, HttpServletRequest request) {
@@ -80,6 +81,47 @@ public class TaskController {
         Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
         taskService.createTaskGroup(jsonObject, userId);
 
+        return ResponseDto.succeed();
+    }
+
+    /**
+     * 加入任务组
+     */
+    @PostMapping("/group/join")
+    public ResponseDto joinTaskGroup(@RequestBody String json, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject(json);
+        if (jsonObject.isNull("groupId")) {
+            return ResponseDto.failed("Group Id is Blank.");
+        }
+
+        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+        OptionDto<Integer, String> joinStatus = taskService.joinTaskGroup(jsonObject, userId);
+        if (joinStatus != null) {
+            return ResponseDto.failed()
+                    .setMessage(joinStatus.getOptVal())
+                    .setData("code", joinStatus.getOptKey());
+        }
+        return ResponseDto.succeed();
+    }
+
+    /**
+     * 完成任务项
+     */
+    @PostMapping("/item")
+    public ResponseDto finishTaskItem(@RequestBody String json, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject(json);
+        if (jsonObject.isNull("itemId") ||
+                jsonObject.isNull("groupId")) {
+            return ResponseDto.failed("Something is Blank.");
+        }
+
+        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+        OptionDto<Integer, String> finishStatus = taskService.finishTaskItem(jsonObject, userId);
+        if (finishStatus != null) {
+            return ResponseDto.failed()
+                    .setMessage(finishStatus.getOptVal())
+                    .setData("code", finishStatus.getOptKey());
+        }
         return ResponseDto.succeed();
     }
 }

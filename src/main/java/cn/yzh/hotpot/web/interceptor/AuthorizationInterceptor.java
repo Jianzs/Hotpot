@@ -1,6 +1,5 @@
 package cn.yzh.hotpot.web.interceptor;
 
-import cn.yzh.hotpot.exception.NoAuthenticationException;
 import cn.yzh.hotpot.exception.NoAuthorizationException;
 import cn.yzh.hotpot.util.JWTUtil;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorizationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws NoAuthenticationException {
+            throws NoAuthorizationException {
         if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
             return true;
         }
@@ -22,7 +21,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
 
         if (role == null) {
-            throw new NoAuthenticationException("Not Log In.");
+            throw new NoAuthorizationException("Not Log In.");
         }
 
         return true;

@@ -2,6 +2,7 @@ package cn.yzh.hotpot.service;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
+import cn.yzh.hotpot.pojo.dto.OptionDto;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,8 @@ public interface TaskService {
     Page<HistoryTaskListProjection> getHistoryTaskList(Integer userId, Pageable pageable);
 
     void createTaskGroup(JSONObject jsonObject, Integer userId);
+
+    OptionDto<Integer, String> finishTaskItem(JSONObject jsonObject, Integer userId);
+
+    OptionDto<Integer, String> joinTaskGroup(JSONObject jsonObject, Integer userId);
 }
