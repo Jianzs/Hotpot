@@ -7,7 +7,7 @@ public interface UserInfoProjection {
     String getAvatar();
     Timestamp getBirthday();
     Integer getGender();
-    String getGrade();
+    Integer getGrade();
     String getCollage();
     String getLocation();
 }

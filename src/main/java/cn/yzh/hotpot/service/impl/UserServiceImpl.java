@@ -3,6 +3,8 @@ package cn.yzh.hotpot.service.impl;
 import cn.yzh.hotpot.dao.UserDao;
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
 import cn.yzh.hotpot.dao.projection.UserInfoProjection;
+import cn.yzh.hotpot.enums.UserGenderEnum;
+import cn.yzh.hotpot.enums.UserGradeEnum;
 import cn.yzh.hotpot.enums.UserInfoEnum;
 import cn.yzh.hotpot.enums.UserRoleEnum;
 import cn.yzh.hotpot.exception.ConnectWechatException;
@@ -38,8 +40,8 @@ public class UserServiceImpl implements UserService {
             user.setAvatar("https://avatars0.githubusercontent.com/u/20160766?s=460&v=4");
             user.setUsername("Stranger");
             user.setCollage("Collage");
-            user.setGender(1);
-            user.setGrade("大一");
+            user.setGender(UserGenderEnum.MALE.getValue());
+            user.setGrade(UserGradeEnum.COLLEGE_ONE.getValue());
             user.setLocation("中国");
             user.setBirthday(DatetimeUtil.getTodayNoonTimestamp());
 

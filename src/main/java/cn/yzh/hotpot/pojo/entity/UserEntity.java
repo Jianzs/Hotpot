@@ -15,7 +15,7 @@ public class UserEntity {
     private String avatar;
     private Timestamp birthday;
     private Integer gender;
-    private String grade;
+    private Integer grade;
     private String collage;
     private String location;
 
@@ -32,11 +32,11 @@ public class UserEntity {
     @Column(columnDefinition = "timestamp DEFAULT current_timestamp ON UPDATE current_timestamp")
     private Timestamp updateTime;
 
-    public String getGrade() {
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(Integer grade) {
         this.grade = grade;
     }
 
