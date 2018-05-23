@@ -35,8 +35,8 @@ public interface TaskDao extends JpaRepository<TaskGroupEntity, Integer> {
             "FROM task_member AS A LEFT JOIN task_group AS B ON (A.group_id = B.id)\n" +
             "WHERE B.end_time < :curTime AND user_id = :userId";
 
-    String getHistoryTaskList = "SELECT I.group_id AS groupId, I.title, I.end_time AS endTime, I.finished_people AS finishedPeople, IFNULL(J.unfinished_day, 0) AS unfinishedDay\n" +
-            "FROM (SELECT F.id AS group_id, F.title, F.end_time, F.total_people - E.unfinished_people AS finished_people\n" +
+    String getHistoryTaskList = "SELECT I.group_id AS groupId, I.title, I.type, I.end_time AS endTime, I.finished_people AS finishedPeople, IFNULL(J.unfinished_day, 0) AS unfinishedDay\n" +
+            "FROM (SELECT F.id AS group_id, F.title, F.type, F.end_time, F.total_people - E.unfinished_people AS finished_people\n" +
             "    FROM (SELECT DISTINCT C.group_id, count(DISTINCT D.user_id) AS unfinished_people\n" +
             "        FROM (SELECT B.id AS group_id, B.total_task\n" +
             "            FROM task_member AS A LEFT JOIN task_group AS B ON (A.group_id = B.id)\n" +

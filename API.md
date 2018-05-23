@@ -102,6 +102,9 @@
 * METHOD: GET
 * REQUEST: Null
 * RESPONSE:
+    * type
+        * 0: 多人
+        * 1: 个人
     ```json
     {
         "status": 0,
@@ -114,7 +117,8 @@
                     "finishedTask": 0,
                     "finishedPeople": 0,
                     "groupId": 2,
-                    "endTime": "2018-05-30T00:00:00.000+0000"
+                    "endTime": "2018-05-30T00:00:00.000+0000",
+                    "type": 1,
                 },
                 {
                     "totalTask": 3,
@@ -122,7 +126,8 @@
                     "finishedTask": 0,
                     "finishedPeople": 0,
                     "groupId": 1,
-                    "endTime": "2018-06-05T00:00:00.000+0000"
+                    "endTime": "2018-06-05T00:00:00.000+0000",
+                    "type": 0
                 }
             ]
         }
@@ -136,6 +141,9 @@
 * REQUEST: Null
 * RESPONSE:
     * *unfinishedDay 如果大于0，即为未完成*
+    * type
+        * 0: 多人
+        * 1: 个人
     ```json
     {
         "status": 0,
@@ -147,14 +155,16 @@
                     "finishedPeople": 0,
                     "unfinishedDay": 11,
                     "groupId": 1,
-                    "endTime": "2018-05-11T00:00:00.000+0000"
+                    "endTime": "2018-05-11T00:00:00.000+0000",
+                    "type": 1,
                 },
                 {
                     "title": "title",
                     "finishedPeople": 0,
                     "unfinishedDay": 9,
                     "groupId": 2,
-                    "endTime": "2018-04-10T00:00:00.000+0000"
+                    "endTime": "2018-04-10T00:00:00.000+0000",
+                    "type": 0
                 }
             ],
             "pageSum": 1
