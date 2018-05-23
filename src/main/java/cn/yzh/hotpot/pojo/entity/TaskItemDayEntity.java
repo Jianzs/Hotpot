@@ -17,9 +17,9 @@ public class TaskItemDayEntity {
 
     private Timestamp currentDay;
 
-    @Column(columnDefinition = "timestamp DEFAULT current_timestamp")
+    @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private Timestamp createTime;
-    @Column(columnDefinition = "timestamp DEFAULT current_timestamp ON UPDATE current_timestamp")
+    @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", updatable = false)
     private Timestamp updateTime;
 
     public Integer getUserId() {

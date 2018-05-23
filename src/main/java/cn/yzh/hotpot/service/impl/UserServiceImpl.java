@@ -59,11 +59,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateInfo(UserEntity user) {
         UserEntity oldUser = userDao.getById(user.getId());
-        user.setPeopleScore(oldUser.getPeopleScore());
-        user.setPersonScore(oldUser.getPersonScore());
-        user.setOpenid(oldUser.getOpenid());
-        user.setStatus(UserInfoEnum.COMPLETED.getValue());
-        userDao.save(user);
+
+        oldUser.setAvatar(user.getAvatar());
+        oldUser.setUsername(user.getUsername());
+        oldUser.setBirthday(user.getBirthday());
+        oldUser.setGender(user.getGender());
+        oldUser.setCollage(user.getCollage());
+        oldUser.setGrade(user.getGrade());
+        oldUser.setLocation(user.getLocation());
+        oldUser.setStatus(UserInfoEnum.COMPLETED.getValue());
+
+        userDao.save(oldUser);
     }
 
     @Override

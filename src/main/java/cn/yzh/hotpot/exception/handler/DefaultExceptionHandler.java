@@ -4,6 +4,7 @@ import cn.yzh.hotpot.exception.NoAuthorizationException;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,7 +31,8 @@ public class DefaultExceptionHandler {
             logger.info(sb.toString());
             responseDto.setMessage(e.getMessage());
 
-        } else if (e instanceof HttpRequestMethodNotSupportedException) {
+        } else if (e instanceof HttpRequestMethodNotSupportedException ||
+                e instanceof HttpMessageNotReadableException) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             logger.warn(sb.toString());
             responseDto.setMessage(e.getMessage());

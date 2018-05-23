@@ -27,9 +27,9 @@ public class UserEntity {
     @Column(columnDefinition = "INT DEFAULT 0")
     private Integer status; // 信息是否完善
 
-    @Column(columnDefinition = "timestamp DEFAULT current_timestamp")
+    @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private Timestamp createTime;
-    @Column(columnDefinition = "timestamp DEFAULT current_timestamp ON UPDATE current_timestamp")
+    @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", updatable = false)
     private Timestamp updateTime;
 
     public Integer getGrade() {

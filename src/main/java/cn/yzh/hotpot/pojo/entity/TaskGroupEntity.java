@@ -2,6 +2,7 @@ package cn.yzh.hotpot.pojo.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(schema = "hotpot", name = "task_group")
@@ -21,9 +22,9 @@ public class TaskGroupEntity {
     private Integer maxPeople;
     private boolean isPublic;
 
-    @Column(columnDefinition = "timestamp DEFAULT current_timestamp")
+    @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private Timestamp createTime;
-    @Column(columnDefinition = "timestamp DEFAULT current_timestamp ON UPDATE current_timestamp")
+    @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", updatable = false)
     private Timestamp updateTime;
 
     public Integer getMaxPeople() {
@@ -102,11 +103,11 @@ public class TaskGroupEntity {
         return isPublic;
     }
 
-    public Timestamp getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public Timestamp getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 }
