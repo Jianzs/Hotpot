@@ -3,6 +3,7 @@ package cn.yzh.hotpot.service.impl;
 import cn.yzh.hotpot.dao.UserDao;
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
 import cn.yzh.hotpot.dao.projection.UserInfoProjection;
+import cn.yzh.hotpot.dao.projection.UserRankProjection;
 import cn.yzh.hotpot.enums.UserGenderEnum;
 import cn.yzh.hotpot.enums.UserGradeEnum;
 import cn.yzh.hotpot.enums.UserInfoEnum;
@@ -15,6 +16,8 @@ import cn.yzh.hotpot.util.DatetimeUtil;
 import cn.yzh.hotpot.util.JWTUtil;
 import cn.yzh.hotpot.util.WechatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -80,5 +83,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoProjection getUserInfo(Integer userId) {
         return userDao.getInfoById(userId);
+    }
+
+    @Override
+    public Page<UserRankProjection> getRank(Pageable page) {
+        return userDao.findRank(page);
     }
 }

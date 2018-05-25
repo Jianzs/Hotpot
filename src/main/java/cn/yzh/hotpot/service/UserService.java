@@ -2,9 +2,13 @@ package cn.yzh.hotpot.service;
 
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
 import cn.yzh.hotpot.dao.projection.UserInfoProjection;
+import cn.yzh.hotpot.dao.projection.UserRankProjection;
 import cn.yzh.hotpot.exception.ConnectWechatException;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.entity.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 import java.io.UnsupportedEncodingException;
@@ -28,4 +32,6 @@ public interface UserService {
     PersonScoreProjection getScore(Integer userId);
 
     UserInfoProjection getUserInfo(Integer userId);
+
+    Page<UserRankProjection> getRank(Pageable page);
 }

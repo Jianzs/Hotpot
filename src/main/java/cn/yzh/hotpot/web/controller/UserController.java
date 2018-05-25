@@ -2,6 +2,7 @@ package cn.yzh.hotpot.web.controller;
 
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
 import cn.yzh.hotpot.dao.projection.UserInfoProjection;
+import cn.yzh.hotpot.dao.projection.UserRankProjection;
 import cn.yzh.hotpot.exception.ConnectWechatException;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
@@ -10,6 +11,9 @@ import cn.yzh.hotpot.service.UserService;
 import cn.yzh.hotpot.util.JWTUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/user")
 public class UserController {
     private final String WECHAR_CODE = "code";
+    private final Integer PER_PAGE_RANK = 10;
 
     private UserService userService;
 
@@ -84,5 +89,26 @@ public class UserController {
         Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
         PersonScoreProjection personScore = userService.getScore(userId);
         return ResponseDto.succeed().setData("score", personScore);
+    }
+
+    /**
+     * 排行榜
+     */
+    @GetMapping("/rank/{pageNum}")
+    public ResponseDto getRank(@PathVariable("pageNum") Integer pageNum) {
+        if (pageNum <= 0) {
+            return ResponseDto.failed("Page Number is Wrong.");
+        }
+        pageNum--;
+
+        Page<UserRankProjection> userRank = userService.getRank(PageRequest.of(
+                pageNum,
+                PER_PAGE_RANK,
+                Sort.Direction.DESC,
+                "people_score"
+        ));
+        return ResponseDto.succeed().
+                setData("rank", userRank.getContent())
+                .setData("pageSum", userRank.getTotalPages());
     }
 }

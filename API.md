@@ -96,6 +96,32 @@
     }
     ```
 
+### 获取排行
+* URL: /user/rank/{pageNum} 
+    * *pageNum 从1开始，且必须有*
+* METHOD: GET
+* REQUEST: Null
+* RESPONSE:
+    ```json
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {
+            "pageSum": 1,
+            "rank": [
+                {
+                    "peopleScore": 100,
+                    "username": "lalalal"
+                },
+                {
+                    "peopleScore": 0,
+                    "username": "janzs"
+                }
+            ]
+        }
+    }
+    ```
+
 ## 任务
 ### 获取当前任务
 * URL： /task/pending
@@ -118,7 +144,7 @@
                     "finishedPeople": 0,
                     "groupId": 2,
                     "endTime": "2018-05-30T00:00:00.000+0000",
-                    "type": 1,
+                    "type": 1
                 },
                 {
                     "totalTask": 3,
@@ -156,7 +182,7 @@
                     "unfinishedDay": 11,
                     "groupId": 1,
                     "endTime": "2018-05-11T00:00:00.000+0000",
-                    "type": 1,
+                    "type": 1
                 },
                 {
                     "title": "title",
