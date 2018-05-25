@@ -17,7 +17,7 @@ public interface TaskService {
 
     Page<HistoryTaskListProjection> getHistoryTaskList(Integer userId, Pageable pageable);
 
-    void createTaskGroup(JSONObject jsonObject, Integer userId);
+    Integer createTaskGroup(JSONObject jsonObject, Integer userId);
 
     OptionDto<Integer, String> finishTaskItem(JSONObject jsonObject, Integer userId);
 

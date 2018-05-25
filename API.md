@@ -229,7 +229,9 @@
     {
         "status": 0,
         "message": "SUCCESS",
-        "data": {}
+        "data": {
+            "groupId": 1
+        }
     }
     ```
     

@@ -62,7 +62,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void createTaskGroup(JSONObject jsonObject, Integer userId) {
+    public Integer createTaskGroup(JSONObject jsonObject, Integer userId) {
         JSONArray items = jsonObject.getJSONArray("items");
         // 新建一个任务组
         TaskGroupEntity taskGroup = buildTaskGroup(jsonObject, userId, items.length());
@@ -88,6 +88,8 @@ public class TaskServiceImpl implements TaskService {
                 saveGroup.getStartTime(),
                 saveGroup.getEndTime());
         taskMemberDayDao.saveAll(members);
+
+        return saveGroup.getId();
     }
 
     @Override

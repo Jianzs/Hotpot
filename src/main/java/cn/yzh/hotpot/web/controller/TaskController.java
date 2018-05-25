@@ -79,9 +79,10 @@ public class TaskController {
         }
 
         Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
-        taskService.createTaskGroup(jsonObject, userId);
+        Integer groupId = taskService.createTaskGroup(jsonObject, userId);
 
-        return ResponseDto.succeed();
+        return ResponseDto.succeed()
+                .setData("groupId", groupId);
     }
 
     /**

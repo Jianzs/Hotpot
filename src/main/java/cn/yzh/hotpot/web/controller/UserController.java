@@ -10,7 +10,9 @@ import cn.yzh.hotpot.pojo.entity.UserEntity;
 import cn.yzh.hotpot.service.UserService;
 import cn.yzh.hotpot.util.JWTUtil;
 import org.json.JSONObject;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,8 +24,10 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final String WECHAR_CODE = "code";
-    private final Integer PER_PAGE_RANK = 10;
+    @Value("${user.rank.perPageNum}")
+    private Integer PER_PAGE_RANK;
+    @Value("${user.login.wechatCode}")
+    private String WECHAR_CODE;
 
     private UserService userService;
 
