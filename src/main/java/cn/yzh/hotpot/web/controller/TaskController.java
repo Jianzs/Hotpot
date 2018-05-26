@@ -125,4 +125,26 @@ public class TaskController {
         }
         return ResponseDto.succeed();
     }
+
+    /**
+     * 打分
+     */
+    @PostMapping("/score")
+    public ResponseDto score(@RequestBody String json, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject(json);
+        if (jsonObject.isNull("toUserId") ||
+                jsonObject.isNull("groupId") ||
+                jsonObject.isNull("score")) {
+            return ResponseDto.failed("Something is Blank.");
+        }
+
+        Integer fromUserId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+        Integer toUserId = jsonObject.getInt("toUserId");
+        Integer groupId = jsonObject.getInt("groupId");
+        Integer score = jsonObject.getInt("score");
+
+        taskService.score(fromUserId, toUserId, groupId, score);
+
+        return ResponseDto.succeed();
+    }
 }

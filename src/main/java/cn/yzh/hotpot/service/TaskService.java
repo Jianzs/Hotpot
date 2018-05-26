@@ -22,4 +22,6 @@ public interface TaskService {
     OptionDto<Integer, String> finishTaskItem(JSONObject jsonObject, Integer userId);
 
     OptionDto<Integer, String> joinTaskGroup(JSONObject jsonObject, Integer userId);
+
+    void score(Integer fromUserId, Integer toUserId, Integer groupId, Integer score);
 }

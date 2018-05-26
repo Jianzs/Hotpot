@@ -27,6 +27,7 @@ public class TaskServiceImpl implements TaskService {
     private TaskItemDayDao taskItemDayDao;
     private TaskMemberDao taskMemberDao;
     private TaskMemberDayDao taskMemberDayDao;
+    private ScoreDao scoreDao;
 
     @Autowired
     public TaskServiceImpl(TaskDao taskDao,
@@ -34,13 +35,15 @@ public class TaskServiceImpl implements TaskService {
                            TaskItemDao taskItemDao,
                            TaskItemDayDao taskItemDayDao,
                            TaskMemberDao taskMemberDao,
-                           TaskMemberDayDao taskMemberDayDao) {
+                           TaskMemberDayDao taskMemberDayDao,
+                           ScoreDao scoreDao) {
         this.taskDao = taskDao;
         this.taskGroupDao = taskGroupDao;
         this.taskItemDao = taskItemDao;
         this.taskItemDayDao = taskItemDayDao;
         this.taskMemberDao = taskMemberDao;
         this.taskMemberDayDao = taskMemberDayDao;
+        this.scoreDao = scoreDao;
     }
 
     @Override
@@ -155,6 +158,20 @@ public class TaskServiceImpl implements TaskService {
         taskMemberDayDao.saveAll(members);
 
         return null;
+    }
+
+    @Override
+    public void score(Integer fromUserId, Integer toUserId, Integer groupId, Integer score) {
+        TaskMemberDayEntity memberDay = taskMemberDayDao.getByGroupIdAndUserIdAndCurrentDay(groupId, toUserId,
+                DatetimeUtil.getTodayNoonTimestamp());
+
+        ScoreEntity scoreEntity = new ScoreEntity();
+        scoreEntity.setMemberDayId(memberDay.getId());
+        scoreEntity.setFromUserId(fromUserId);
+        scoreEntity.setToUserId(toUserId);
+        scoreEntity.setScore(score);
+
+        scoreDao.save(scoreEntity);
     }
 
     private List<TaskMemberDayEntity> buildTaskMemberDays(TaskMemberEntity saveMember, Timestamp startTime, Timestamp endTime) {
