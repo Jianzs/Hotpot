@@ -2,6 +2,7 @@ package cn.yzh.hotpot.service;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
+import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;
@@ -23,5 +24,5 @@ public interface TaskService {
 
     OptionDto<Integer, String> joinTaskGroup(JSONObject jsonObject, Integer userId);
 
-    void score(Integer fromUserId, Integer toUserId, Integer groupId, Integer score);
+    void score(Integer fromUserId, Integer toUserId, Integer groupId, Integer score) throws NoSuchTaskMemberDay;
 }

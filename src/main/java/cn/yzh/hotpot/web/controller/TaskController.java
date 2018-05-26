@@ -2,6 +2,7 @@ package cn.yzh.hotpot.web.controller;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
+import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
 import cn.yzh.hotpot.service.TaskService;
@@ -130,7 +131,8 @@ public class TaskController {
      * 打分
      */
     @PostMapping("/score")
-    public ResponseDto score(@RequestBody String json, HttpServletRequest request) {
+    public ResponseDto score(@RequestBody String json, HttpServletRequest request)
+            throws NoSuchTaskMemberDay {
         JSONObject jsonObject = new JSONObject(json);
         if (jsonObject.isNull("toUserId") ||
                 jsonObject.isNull("groupId") ||

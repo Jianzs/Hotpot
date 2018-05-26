@@ -4,6 +4,7 @@ import cn.yzh.hotpot.dao.*;
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
 import cn.yzh.hotpot.enums.TaskFinishStatusEnum;
+import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.entity.*;
 import cn.yzh.hotpot.service.TaskService;
@@ -161,9 +162,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void score(Integer fromUserId, Integer toUserId, Integer groupId, Integer score) {
+    public void score(Integer fromUserId, Integer toUserId, Integer groupId, Integer score)
+            throws NoSuchTaskMemberDay {
         TaskMemberDayEntity memberDay = taskMemberDayDao.getByGroupIdAndUserIdAndCurrentDay(groupId, toUserId,
                 DatetimeUtil.getTodayNoonTimestamp());
+        // 找不到这个人在当天的任务信息
+        if (memberDay == null) throw new NoSuchTaskMemberDay(String.format("No Member %d in This Group %d on %s",
+                toUserId, groupId, DatetimeUtil.getTodayNoonTimestamp().toString()));
 
         ScoreEntity scoreEntity = new ScoreEntity();
         scoreEntity.setMemberDayId(memberDay.getId());

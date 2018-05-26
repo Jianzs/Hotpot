@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.exception.handler;
 
 import cn.yzh.hotpot.exception.NoAuthorizationException;
+import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,11 @@ public class DefaultExceptionHandler {
                 e instanceof HttpMessageNotReadableException) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             logger.warn(sb.toString());
+            responseDto.setMessage(e.getMessage());
+
+        } else if (e instanceof NoSuchTaskMemberDay) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            logger.error(sb.toString());
             responseDto.setMessage(e.getMessage());
 
         } else {
