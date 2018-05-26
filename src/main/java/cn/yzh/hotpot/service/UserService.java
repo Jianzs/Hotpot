@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.service;
 
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
+import cn.yzh.hotpot.dao.projection.ScoreHistoryProjection;
 import cn.yzh.hotpot.dao.projection.UserInfoProjection;
 import cn.yzh.hotpot.dao.projection.UserRankProjection;
 import cn.yzh.hotpot.exception.ConnectWechatException;
@@ -34,4 +35,6 @@ public interface UserService {
     UserInfoProjection getUserInfo(Integer userId);
 
     Page<UserRankProjection> getRank(Pageable page);
+
+    Page<ScoreHistoryProjection> getScoreHistory(Integer userId, PageRequest page);
 }

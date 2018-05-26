@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.web.controller;
 
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
+import cn.yzh.hotpot.dao.projection.ScoreHistoryProjection;
 import cn.yzh.hotpot.dao.projection.UserInfoProjection;
 import cn.yzh.hotpot.dao.projection.UserRankProjection;
 import cn.yzh.hotpot.exception.ConnectWechatException;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,8 @@ public class UserController {
     private Integer PER_PAGE_RANK;
     @Value("${user.login.wechatCode}")
     private String WECHAR_CODE;
+    @Value("${user.score.history.perPageNum}")
+    private Integer PER_PAGE_SCORE_HISTORY;
 
     private UserService userService;
 
@@ -111,8 +115,30 @@ public class UserController {
                 Sort.Direction.DESC,
                 "people_score"
         ));
-        return ResponseDto.succeed().
-                setData("rank", userRank.getContent())
+        return ResponseDto.succeed()
+                .setData("rank", userRank.getContent())
                 .setData("pageSum", userRank.getTotalPages());
+    }
+
+    /**
+     * 积分记录
+     */
+    @GetMapping("/score/history/{pageNum}")
+    public ResponseDto getScoreHistory(@PathVariable("pageNum") Integer pageNum,
+                                       HttpServletRequest request) {
+        if (pageNum <= 0) {
+            return ResponseDto.failed("Page Number is Wrong.");
+        }
+        pageNum--;
+
+        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+        Page<ScoreHistoryProjection> scoreHistory = userService.getScoreHistory(userId,
+                PageRequest.of(pageNum,
+                        PER_PAGE_SCORE_HISTORY,
+                        Sort.Direction.DESC,
+                        "current_day"));
+        return ResponseDto.succeed()
+                .setData("scores", scoreHistory.getContent())
+                .setData("pageSum", scoreHistory.getTotalPages());
     }
 }

@@ -2,6 +2,7 @@ package cn.yzh.hotpot.service.impl;
 
 import cn.yzh.hotpot.dao.UserDao;
 import cn.yzh.hotpot.dao.projection.PersonScoreProjection;
+import cn.yzh.hotpot.dao.projection.ScoreHistoryProjection;
 import cn.yzh.hotpot.dao.projection.UserInfoProjection;
 import cn.yzh.hotpot.dao.projection.UserRankProjection;
 import cn.yzh.hotpot.enums.UserGenderEnum;
@@ -17,6 +18,7 @@ import cn.yzh.hotpot.util.JWTUtil;
 import cn.yzh.hotpot.util.WechatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -88,5 +90,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserRankProjection> getRank(Pageable page) {
         return userDao.findRank(page);
+    }
+
+    @Override
+    public Page<ScoreHistoryProjection> getScoreHistory(Integer userId, PageRequest page) {
+        return userDao.getScoreHistory(userId, DatetimeUtil.getTodayNoonTimestamp(), page);
     }
 }

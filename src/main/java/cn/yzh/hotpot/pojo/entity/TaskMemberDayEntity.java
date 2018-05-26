@@ -15,12 +15,23 @@ public class TaskMemberDayEntity {
 
     private Timestamp currentDay;
 
+    // 完成任务数
     private Integer finishedTask;
+    // 今日所得积分，由每日定时任务结算
+    private Integer score;
 
     @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private Timestamp createTime;
     @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", updatable = false)
     private Timestamp updateTime;
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 
     public Integer getGroupId() {
         return groupId;

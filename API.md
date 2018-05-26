@@ -122,6 +122,29 @@
     }
     ```
 
+### 获取积分历史记录
+* URL： /user/score/history/{pageNum}
+    * *pageNum 从1开始，且必须有*
+* METHOD: GET
+* REQUEST: Null
+* RESPONSE:
+    ```json
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {
+            "scores": [
+                {
+                    "score": 30,
+                    "title": "title",
+                    "currentDay": "2018-05-11T04:00:00.000+0000"
+                }
+            ],
+            "pageSum": 1
+        }
+    }
+    ```
+    
 ## 任务
 ### 获取当前任务
 * URL： /task/pending
