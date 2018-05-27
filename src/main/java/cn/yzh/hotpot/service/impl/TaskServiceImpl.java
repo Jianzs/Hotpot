@@ -1,9 +1,10 @@
 package cn.yzh.hotpot.service.impl;
 
 import cn.yzh.hotpot.dao.*;
-import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
-import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
+import cn.yzh.hotpot.dao.projection.*;
 import cn.yzh.hotpot.enums.TaskFinishStatusEnum;
+import cn.yzh.hotpot.enums.TaskGroupTypeEnum;
+import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.entity.*;
@@ -177,6 +178,39 @@ public class TaskServiceImpl implements TaskService {
         scoreEntity.setScore(score);
 
         scoreDao.save(scoreEntity);
+    }
+
+    @Override
+    public List<OptionDto<String, Object>> getGroupCurrentDetail(Integer groupId, Integer userId)
+            throws NoSuchMemberInGroup {
+        GroupDetailSummary summary = taskGroupDao.getSummaryById(groupId);
+        List<GroupDetailItem> finished = taskItemDayDao.getContentByGroupIdAndUserIdAndCurrentDayAndStatus(
+                groupId,
+                userId,
+                DatetimeUtil.getTodayNoonTimestamp(),
+                TaskFinishStatusEnum.FINISHED.getValue()
+        );
+        List<GroupDetailItem> unfinished = taskItemDayDao.getContentByGroupIdAndUserIdAndCurrentDayAndStatus(
+                groupId,
+                userId,
+                DatetimeUtil.getTodayNoonTimestamp(),
+                TaskFinishStatusEnum.UNFINISHED.getValue()
+        );
+
+        if (finished.size() == 0 && unfinished.size() == 0) {
+            throw new NoSuchMemberInGroup(String.format("No User %d in this Group %d", userId, groupId));
+        }
+
+        List<OptionDto<String, Object>> res = new ArrayList<>();
+        res.add(new OptionDto<>("summary", summary));
+        res.add(new OptionDto<>("unfinished", unfinished));
+        res.add(new OptionDto<>("finished", finished));
+
+        if (summary.getType().equals(TaskGroupTypeEnum.PEOPLE.getValue())) {
+            List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(groupId, userId);
+            res.add(new OptionDto<>("members", members));
+        }
+        return res;
     }
 
     private List<TaskMemberDayEntity> buildTaskMemberDays(TaskMemberEntity saveMember, Timestamp startTime, Timestamp endTime) {

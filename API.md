@@ -19,7 +19,8 @@
 	* [完成一个任务](#完成一个任务)
 	* [加入任务组](#加入任务组)
 	* [打分](#打分)
-
+    * **[查看任务详情](#查看任务详情)**
+    
 ## 用户
 ### 登录
 * URL: /user/login
@@ -272,7 +273,7 @@
         }
     }
     ```
-    
+
 ### 完成一个任务
 * URL： /task/item
 * METHOD: POST
@@ -355,6 +356,42 @@
         "status": 0,
         "message": "SUCCESS",
         "data": {}
+    }
+    ```
+    
+### 查看任务详情
+* URL: /task/group/{groupId}
+* METHOD: GET
+* REQUEST: Null
+* RESPONSE:
+    * type:
+        * 0: 多人任务
+        * 1: 个人任务
+    * 当`type == 0` 即为多人任务时，才有`members`字段
+    ```json
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {
+            "summary": {
+                "title": "title",
+                "endTime": "2018-06-03T00:00:00.000+0000",
+                "type": 0
+            },
+            "members": [],
+            "unfinished": [
+                {
+                    "content": "item1"
+                },
+                {
+                    "content": "item2"
+                },
+                {
+                    "content": "item3"
+                }
+            ],
+            "finished": []
+        }
     }
     ```
 

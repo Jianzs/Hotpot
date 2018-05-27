@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.exception.handler;
 
 import cn.yzh.hotpot.exception.NoAuthorizationException;
+import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
 import org.slf4j.Logger;
@@ -38,7 +39,8 @@ public class DefaultExceptionHandler {
             logger.warn(sb.toString());
             responseDto.setMessage(e.getMessage());
 
-        } else if (e instanceof NoSuchTaskMemberDay) {
+        } else if (e instanceof NoSuchTaskMemberDay ||
+                e instanceof NoSuchMemberInGroup) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             logger.error(sb.toString());
             responseDto.setMessage(e.getMessage());

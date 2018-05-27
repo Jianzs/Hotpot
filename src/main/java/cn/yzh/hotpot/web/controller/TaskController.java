@@ -2,6 +2,7 @@ package cn.yzh.hotpot.web.controller;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
+import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
@@ -84,6 +85,21 @@ public class TaskController {
 
         return ResponseDto.succeed()
                 .setData("groupId", groupId);
+    }
+
+    /**
+     * 获得用户当前任务详情
+     */
+    @GetMapping("/group/{id}")
+    public ResponseDto getGroupDetail(@PathVariable("id") Integer groupId, HttpServletRequest request)
+            throws NoSuchMemberInGroup {
+        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+
+        List<OptionDto<String, Object>> res = taskService.getGroupCurrentDetail(groupId, userId);
+
+        ResponseDto responseDto = ResponseDto.succeed();
+        res.forEach((item) -> responseDto.setData(item.getOptKey(), item.getOptVal()));
+        return responseDto;
     }
 
     /**
