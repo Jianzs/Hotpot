@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface TaskItemDayDao extends JpaRepository<TaskItemDayEntity, Integer> {
-    String getContent="SELECT content\n" +
+    String getContent="SELECT content, id AS itemId\n" +
             "FROM task_item\n" +
             "WHERE id IN (SELECT item_id\n" +
             "    FROM task_item_day\n" +

@@ -379,15 +379,23 @@
                 "endTime": "2018-06-03T00:00:00.000+0000",
                 "type": 0
             },
-            "members": [],
+            "members": [
+                {
+                    "avatar": "url...",
+                    "username": "lalalla"
+                }
+            ],
             "unfinished": [
                 {
+                    "itemId": "16",
                     "content": "item1"
                 },
                 {
+                    "itemId": "17",
                     "content": "item2"
                 },
                 {
+                    "itemId": "18",
                     "content": "item3"
                 }
             ],
