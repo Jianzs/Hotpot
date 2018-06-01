@@ -1,7 +1,5 @@
 package cn.yzh.hotpot.util;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,13 +48,6 @@ public class DatetimeUtil {
         return new Timestamp(calendar.getTimeInMillis());
     }
 
-    public static void main(String[] args) {
-        Date date = new Date();
-        System.out.println(date);
-        System.out.println(date.getTime());
-        System.out.println(getEarlyMorningTimestamp(date));
-    }
-
     // 其实只到23:00
     public static Timestamp getMoonTimestamp(long date) {
         Calendar calendar = Calendar.getInstance();
@@ -66,5 +57,12 @@ public class DatetimeUtil {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return new Timestamp(calendar.getTimeInMillis());
+    }
+
+    public static void main(String[] args) {
+        Date date = new Date();
+        System.out.println(date);
+        System.out.println(date.getTime());
+        System.out.println(getEarlyMorningTimestamp(date));
     }
 }

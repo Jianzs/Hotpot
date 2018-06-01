@@ -21,7 +21,8 @@ public interface TaskDao extends JpaRepository<TaskGroupEntity, Integer> {
             "WHERE start_time > :curTime AND \n" +
             "    id IN (SELECT group_id\n" +
             "        FROM task_member\n" +
-            "        WHERE user_id = :userId)";
+            "        WHERE user_id = :userId)\n" +
+            "ORDER BY start_time";
     String getPendingTaskList = "SELECT C.group_id AS groupId, C.title, C.type, C.end_time AS endTime, C.total_task AS totalTask, IFNULL(finishedPeople, 0) AS finishedPeople, C.finished_task AS finishedTask\n" +
             "FROM (SELECT DISTINCT group_id, finished_task, title, type, end_time, total_task, start_time\n" +
             "    FROM task_member_day LEFT JOIN task_group ON (task_member_day.group_id = task_group.id)\n" +
