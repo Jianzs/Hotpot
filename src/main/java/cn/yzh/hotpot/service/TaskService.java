@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.service;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
+import cn.yzh.hotpot.dao.projection.NotStartedTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
 import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
@@ -28,4 +29,8 @@ public interface TaskService {
     void score(Integer fromUserId, Integer toUserId, Integer groupId, Integer score) throws NoSuchTaskMemberDay;
 
     List<OptionDto<String, Object>> getGroupCurrentDetail(Integer groupId, Integer userId) throws NoSuchMemberInGroup;
+
+    List<OptionDto<String,Object>> getGroupSharedDetail(Integer groupId);
+
+    List<NotStartedTaskListProjection> getNotStartedList(Integer userId);
 }

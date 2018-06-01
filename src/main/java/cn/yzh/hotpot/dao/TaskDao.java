@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.dao;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
+import cn.yzh.hotpot.dao.projection.NotStartedTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
 import cn.yzh.hotpot.pojo.entity.TaskGroupEntity;
 import org.springframework.data.domain.Page;
@@ -15,11 +16,18 @@ import java.util.List;
 
 @Repository
 public interface TaskDao extends JpaRepository<TaskGroupEntity, Integer> {
+    String getNotStartedTaskList = "SELECT id AS groupId, start_time AS startTime, title, type, total_task AS totalTask\n" +
+            "FROM task_group\n" +
+            "WHERE start_time > :curTime AND \n" +
+            "    id IN (SELECT group_id\n" +
+            "        FROM task_member\n" +
+            "        WHERE user_id = :userId)";
     String getPendingTaskList = "SELECT C.group_id AS groupId, C.title, C.type, C.end_time AS endTime, C.total_task AS totalTask, IFNULL(finishedPeople, 0) AS finishedPeople, C.finished_task AS finishedTask\n" +
             "FROM (SELECT DISTINCT group_id, finished_task, title, type, end_time, total_task, start_time\n" +
             "    FROM task_member_day LEFT JOIN task_group ON (task_member_day.group_id = task_group.id)\n" +
-            "    WHERE end_time > :curTime\n" +
-            "        AND user_id = :userId) AS C\n" +
+            "    WHERE end_time >= :curTime\n" +
+            "        AND user_id = :userId\n" +
+            "        AND current_day = :curDay) AS C\n" +
             "    LEFT JOIN (SELECT A.id AS group_id, count(*) AS finishedPeople\n" +
             "    FROM task_group AS A \n" +
             "        LEFT JOIN \n" +
@@ -60,4 +68,8 @@ public interface TaskDao extends JpaRepository<TaskGroupEntity, Integer> {
     Page<HistoryTaskListProjection> getHistoryTaskList(@Param("curTime") Timestamp curTime,
                                                        @Param("userId") Integer userId,
                                                        Pageable pageable);
+
+    @Query(value = getNotStartedTaskList, nativeQuery = true)
+    List<NotStartedTaskListProjection> findNotStartedTaskList(@Param("userId") Integer userId,
+                                                              @Param("curTime") Timestamp curTime);
 }

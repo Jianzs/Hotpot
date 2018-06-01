@@ -1,5 +1,7 @@
 package cn.yzh.hotpot.util;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +19,20 @@ public class DatetimeUtil {
 
     public static Timestamp getTodayNoonTimestamp() {
         return getNoonTimestamp(new Date());
+    }
+
+    public static Timestamp getTodayEarlyMorningTimestamp() {
+        return getEarlyMorningTimestamp(new Date());
+    }
+
+    private static Timestamp getEarlyMorningTimestamp(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return new Timestamp(calendar.getTimeInMillis());
     }
 
     public static Timestamp getNowTimestamp() {
@@ -38,6 +54,17 @@ public class DatetimeUtil {
         Date date = new Date();
         System.out.println(date);
         System.out.println(date.getTime());
-        System.out.println(getNoonTimestamp(date).getTime());
+        System.out.println(getEarlyMorningTimestamp(date));
+    }
+
+    // 其实只到23:00
+    public static Timestamp getMoonTimestamp(long date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(date));
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return new Timestamp(calendar.getTimeInMillis());
     }
 }

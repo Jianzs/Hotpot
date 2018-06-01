@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 
 @Repository
 public interface UserDao extends JpaRepository<UserEntity, Integer> {
-    String getRank = "SELECT username, people_score AS peopleScore\n" +
+    String getRank = "SELECT username, avatar, people_score AS peopleScore\n" +
             "FROM user";
     String countRank = "SELECT count(*)\n" +
             "FROM user";

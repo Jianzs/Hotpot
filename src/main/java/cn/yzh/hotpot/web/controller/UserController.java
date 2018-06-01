@@ -46,6 +46,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseDto login(@RequestBody String json)
             throws UnsupportedEncodingException, ConnectWechatException {
+        System.out.println(json);
         JSONObject jsonObject = new JSONObject(json);
         String code = jsonObject.getString(WECHAR_CODE);
 

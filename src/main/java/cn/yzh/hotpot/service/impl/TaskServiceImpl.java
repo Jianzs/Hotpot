@@ -10,6 +10,7 @@ import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.entity.*;
 import cn.yzh.hotpot.service.TaskService;
 import cn.yzh.hotpot.util.DatetimeUtil;
+import org.bouncycastle.util.Times;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<PendingTaskListProjection> getPendingTaskList(Integer userId) {
-        System.out.println(DatetimeUtil.getNowTimestamp());
-        System.out.println(DatetimeUtil.getTodayNoonTimestamp());
 
         return taskDao.getPendingTaskList(DatetimeUtil.getNowTimestamp(),
                 DatetimeUtil.getTodayNoonTimestamp(),
@@ -102,8 +101,16 @@ public class TaskServiceImpl implements TaskService {
         Integer itemId = jsonObject.getInt("itemId");
         Integer groupId = jsonObject.getInt("groupId");
 
+        TaskGroupEntity taskGroup = taskGroupDao.getById(groupId);
+        if (taskGroup.getEndTime().compareTo(DatetimeUtil.getNowTimestamp()) < 0) {
+            return new OptionDto<>(2, "Task Group is Over.");
+        }
+
         // 更新某一项任务完成状态
         TaskItemDayEntity itemDay = taskItemDayDao.getByItemIdAndUserIdAndCurrentDay(itemId, userId, DatetimeUtil.getTodayNoonTimestamp());
+        if (itemDay == null) {
+            return new OptionDto<>(3, "Task Item Not Exist.");
+        }
         if (itemDay.getStatus().equals(TaskFinishStatusEnum.FINISHED.getValue()))
             return new OptionDto<>(1, "Task Already is Finished.");
         itemDay.setStatus(TaskFinishStatusEnum.FINISHED.getValue());
@@ -113,6 +120,9 @@ public class TaskServiceImpl implements TaskService {
         // 更新某用户某一天任务完成数
         TaskMemberDayEntity memberDay = taskMemberDayDao.getByGroupIdAndUserIdAndCurrentDay(groupId, userId,
                 DatetimeUtil.getTodayNoonTimestamp());
+        if (memberDay == null) {
+            return new OptionDto<>(4, "Task Member Not Exist.");
+        }
         memberDay.setFinishedTask(memberDay.getFinishedTask() + 1);
         taskMemberDayDao.save(memberDay);
         return null;
@@ -211,6 +221,22 @@ public class TaskServiceImpl implements TaskService {
             res.add(new OptionDto<>("members", members));
         }
         return res;
+    }
+
+    @Override
+    public List<OptionDto<String, Object>> getGroupSharedDetail(Integer groupId) {
+        GroupDetailSummary summary = taskGroupDao.getSummaryById(groupId);
+        List<GroupDetailItem> items = taskItemDao.findBriefByGroupId(groupId);
+
+        List<OptionDto<String, Object>> res = new ArrayList<>();
+        res.add(new OptionDto<>("summary", summary));
+        res.add(new OptionDto<>("items", items));
+        return res;
+    }
+
+    @Override
+    public List<NotStartedTaskListProjection> getNotStartedList(Integer userId) {
+        return taskDao.findNotStartedTaskList(userId, DatetimeUtil.getNowTimestamp());
     }
 
     private List<TaskMemberDayEntity> buildTaskMemberDays(TaskMemberEntity saveMember, Timestamp startTime, Timestamp endTime) {

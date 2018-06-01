@@ -1,6 +1,7 @@
 package cn.yzh.hotpot.web.controller;
 
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
+import cn.yzh.hotpot.dao.projection.NotStartedTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
 import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
@@ -164,5 +165,29 @@ public class TaskController {
         taskService.score(fromUserId, toUserId, groupId, score);
 
         return ResponseDto.succeed();
+    }
+
+    /**
+     * 未开始任务
+     */
+    @GetMapping("/not-start")
+    public ResponseDto getNotStarted(HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+
+        List<NotStartedTaskListProjection> list = taskService.getNotStartedList(userId);
+
+        return ResponseDto.succeed().setData("tasks", list);
+    }
+
+    /**
+     * 分享时，任务详情
+     */
+    @GetMapping("/detail/simple/{id}")
+    public ResponseDto getTaskGroupSharedDetail(@PathVariable("id") Integer groupId) {
+        List<OptionDto<String, Object>> res = taskService.getGroupSharedDetail(groupId);
+
+        ResponseDto responseDto = ResponseDto.succeed();
+        res.forEach((item) -> responseDto.setData(item.getOptKey(), item.getOptVal()));
+        return responseDto;
     }
 }

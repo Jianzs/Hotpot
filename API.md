@@ -19,7 +19,10 @@
 	* [完成一个任务](#完成一个任务)
 	* [加入任务组](#加入任务组)
 	* [打分](#打分)
-    * **[查看任务详情](#查看任务详情)**
+	* [查看任务详情](#查看任务详情)
+	* [查看未开始任务](#查看未开始任务)
+	* [查看简单任务详情](#查看简单任务详情)
+
     
 ## 用户
 ### 登录
@@ -400,6 +403,61 @@
                 }
             ],
             "finished": []
+        }
+    }
+    ```
+    
+### 查看未开始任务
+* URL： /task/not-start
+* METHORD: GET
+* REQUEST: Null
+* RESPONSE
+    ```json
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {
+            "tasks": [
+                {
+                    "title": "title",
+                    "groupId": 7,
+                    "startTime": "2018-06-05T00:00:00.000+0000", 开始时间
+                    "type": 0
+                }
+            ]
+        }
+    }
+    ```
+    
+### 访客查看任务详情
+* URL： /task/detail/simple/{groupId}
+* METHOD: GET
+* REQUEST: Null
+* RESPONSE
+    ```JSON
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {
+            "summary": {
+                "title": "title",
+                "endTime": "2018-06-05T00:00:00.000+0000",
+                "type": 0
+            },
+            "items": [
+                {
+                    "itemId": "19",
+                    "content": "item1"
+                },
+                {
+                    "itemId": "20",
+                    "content": "item2"
+                },
+                {
+                    "itemId": "21",
+                    "content": "item3"
+                }
+            ]
         }
     }
     ```
