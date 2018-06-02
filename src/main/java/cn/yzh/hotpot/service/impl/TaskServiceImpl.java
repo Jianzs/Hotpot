@@ -216,14 +216,14 @@ public class TaskServiceImpl implements TaskService {
         res.add(new OptionDto<>("finished", finished));
 
         if (summary.getType().equals(TaskGroupTypeEnum.PEOPLE.getValue())) {
-            List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(groupId, userId);
+            List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(groupId);
             res.add(new OptionDto<>("members", members));
         }
         return res;
     }
 
     @Override
-    public List<OptionDto<String, Object>> getGroupSharedDetail(Integer groupId, Integer userId) {
+    public List<OptionDto<String, Object>> getGroupSharedDetail(Integer groupId) {
         GroupDetailSummary summary = taskGroupDao.getSummaryById(groupId);
         List<GroupDetailItem> items = taskItemDao.findBriefByGroupId(groupId);
 
@@ -233,7 +233,7 @@ public class TaskServiceImpl implements TaskService {
 
 
         if (summary.getType().equals(TaskGroupTypeEnum.PEOPLE.getValue())) {
-            List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(groupId, userId == null ? -1 : userId);
+            List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(groupId);
             res.add(new OptionDto<>("members", members));
         }
         return res;

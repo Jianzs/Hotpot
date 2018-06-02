@@ -15,12 +15,10 @@ public interface TaskMemberDao extends JpaRepository<TaskMemberEntity, Integer> 
             "FROM user\n" +
             "WHERE id IN (SELECT user_id\n" +
             "    FROM task_member\n" +
-            "    WHERE group_id = :groupId)\n" +
-            "    AND id <> :userId";
+            "    WHERE group_id = :groupId)";
 
     boolean existsByUserIdAndGroupId(Integer userId, Integer groupId);
 
     @Query(value = findMemberByGroupId, nativeQuery = true)
-    List<GroupDetailMember> findAllMemberOfGroup(@Param("groupId") Integer groupId,
-                                                 @Param("userId") Integer userId);
+    List<GroupDetailMember> findAllMemberOfGroup(@Param("groupId") Integer groupId);
 }

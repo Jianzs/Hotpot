@@ -30,7 +30,7 @@ public interface TaskService {
 
     List<OptionDto<String, Object>> getGroupCurrentDetail(Integer groupId, Integer userId) throws NoSuchMemberInGroup;
 
-    List<OptionDto<String,Object>> getGroupSharedDetail(Integer groupId, Integer userId);
+    List<OptionDto<String,Object>> getGroupSharedDetail(Integer groupId);
 
     List<NotStartedTaskListProjection> getNotStartedList(Integer userId);
 }
