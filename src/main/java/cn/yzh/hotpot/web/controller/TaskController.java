@@ -183,8 +183,10 @@ public class TaskController {
      * 分享时，任务详情
      */
     @GetMapping("/detail/simple/{id}")
-    public ResponseDto getTaskGroupSharedDetail(@PathVariable("id") Integer groupId) {
-        List<OptionDto<String, Object>> res = taskService.getGroupSharedDetail(groupId);
+    public ResponseDto getTaskGroupSharedDetail(@PathVariable("id") Integer groupId,
+                                                HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
+        List<OptionDto<String, Object>> res = taskService.getGroupSharedDetail(groupId, userId);
 
         ResponseDto responseDto = ResponseDto.succeed();
         res.forEach((item) -> responseDto.setData(item.getOptKey(), item.getOptVal()));

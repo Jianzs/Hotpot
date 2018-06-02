@@ -10,7 +10,6 @@ import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.entity.*;
 import cn.yzh.hotpot.service.TaskService;
 import cn.yzh.hotpot.util.DatetimeUtil;
-import org.bouncycastle.util.Times;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -224,13 +223,19 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<OptionDto<String, Object>> getGroupSharedDetail(Integer groupId) {
+    public List<OptionDto<String, Object>> getGroupSharedDetail(Integer groupId, Integer userId) {
         GroupDetailSummary summary = taskGroupDao.getSummaryById(groupId);
         List<GroupDetailItem> items = taskItemDao.findBriefByGroupId(groupId);
 
         List<OptionDto<String, Object>> res = new ArrayList<>();
         res.add(new OptionDto<>("summary", summary));
         res.add(new OptionDto<>("items", items));
+
+
+        if (summary.getType().equals(TaskGroupTypeEnum.PEOPLE.getValue())) {
+            List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(groupId, userId == null ? -1 : userId);
+            res.add(new OptionDto<>("members", members));
+        }
         return res;
     }
 

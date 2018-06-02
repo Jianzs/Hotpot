@@ -434,28 +434,27 @@
 * METHOD: GET
 * REQUEST: Null
 * RESPONSE
+    * members 在summary.type == 0时才有
     ```JSON
     {
         "status": 0,
         "message": "SUCCESS",
         "data": {
             "summary": {
-                "title": "title",
-                "endTime": "2018-06-05T00:00:00.000+0000",
-                "type": 0
+                "title": "巴巴爸爸",
+                "endTime": "2018-06-03T22:14:00.000+0000",
+                "type": 1
             },
+            "members": [
+                {
+                    "avatar": "url...",
+                    "username": "郑守建"
+                }
+            ],
             "items": [
                 {
-                    "itemId": "19",
-                    "content": "item1"
-                },
-                {
-                    "itemId": "20",
-                    "content": "item2"
-                },
-                {
-                    "itemId": "21",
-                    "content": "item3"
+                    "itemId": "112",
+                    "content": "还好好"
                 }
             ]
         }
