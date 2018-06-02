@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -101,6 +102,9 @@ public class TaskServiceImpl implements TaskService {
         Integer groupId = jsonObject.getInt("groupId");
 
         TaskGroupEntity taskGroup = taskGroupDao.getById(groupId);
+        if (DatetimeUtil.compareTime(new Date(), taskGroup.getEndTime()) > 0) {
+            return new OptionDto<>(5, "Today Task is Over.");
+        }
         if (taskGroup.getEndTime().compareTo(DatetimeUtil.getNowTimestamp()) < 0) {
             return new OptionDto<>(2, "Task Group is Over.");
         }
