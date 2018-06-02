@@ -278,16 +278,16 @@
     ```
 
 ### 完成一个任务
-* URL： /task/item
-* METHOD: POST
-* REQUEST:
+ * URL： /task/item
+ * METHOD: POST
+ * REQUEST:
     ```json
     {
     	"itemId": 1,
     	"groupId": 1
     }
     ```
-* RESPONSE:
+ * RESPONSE:
     * 成功
         ```json
         {
@@ -308,6 +308,13 @@
             }
         }
         ```
+        code | 原因
+         -- | --
+         1 | 所选任务已标记完成
+         2 | 任务组已结束
+         3 | 所选任务项不存在
+         4 | 没有用户今天的记录信息
+         5 | 已过每日截止时间
 
 ### 加入任务组
 * URL： /task/group/join
@@ -434,7 +441,6 @@
 * METHOD: GET
 * REQUEST: Null
 * RESPONSE
-    * members 在summary.type == 0时才有
     ```JSON
     {
         "status": 0,
