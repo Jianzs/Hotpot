@@ -91,11 +91,13 @@ public class TaskController {
     /**
      * 获得用户当前任务详情
      */
-    @GetMapping("/group/{id}")
-    public ResponseDto getGroupDetail(@PathVariable("id") Integer groupId, HttpServletRequest request)
+    @GetMapping({"/group/{groupId}", "/group/{groupId}/{userId}"})
+    public ResponseDto getGroupDetail(@PathVariable("groupId") Integer groupId,
+                                      @PathVariable(value = "userId", required = false) Integer userId,
+                                      HttpServletRequest request)
             throws NoSuchMemberInGroup {
-        Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
-
+        if (userId == null)
+            userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
         List<OptionDto<String, Object>> res = taskService.getGroupCurrentDetail(groupId, userId);
 
         ResponseDto responseDto = ResponseDto.succeed();

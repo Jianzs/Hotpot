@@ -74,8 +74,6 @@ public class DatetimeUtil {
         cal1.set(2000, Calendar.JANUARY, 1);
         cal2.setTime(date2);
         cal2.set(2000, Calendar.JANUARY, 1);
-        System.out.println(cal1.getTime());
-        System.out.println(cal2.getTime());
         return cal1.compareTo(cal2);
     }
 }

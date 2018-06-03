@@ -19,7 +19,7 @@
 	* [完成一个任务](#完成一个任务)
 	* [加入任务组](#加入任务组)
 	* [打分](#打分)
-	* [查看任务详情](#查看任务详情)
+	* **[查看任务详情](#查看任务详情)**
 	* [查看未开始任务](#查看未开始任务)
 	* [查看简单任务详情](#查看简单任务详情)
 
@@ -370,9 +370,12 @@
     ```
     
 ### 查看任务详情
-* URL: /task/group/{groupId}
+* URL: /task/group/{groupId}/{userId}
 * METHOD: GET
 * REQUEST: Null
+    * userId
+        * **为空时，查看当前用户该任务详情**
+        * **非空时，查看指定用户该任务详情**
 * RESPONSE:
     * type:
         * 0: 多人任务
@@ -392,6 +395,7 @@
             "members": [
                 {
                     "avatar": "url...",
+                    "userId": 3,
                     "username": "lalalla"
                 }
             ],
@@ -454,6 +458,7 @@
             "members": [
                 {
                     "avatar": "url...",
+                    "userId": 3,
                     "username": "郑守建"
                 }
             ],

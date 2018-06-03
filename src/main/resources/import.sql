@@ -1,1 +1,0 @@
-INSERT INTO user(openid) VALUES ('openid1'), ('openid2');

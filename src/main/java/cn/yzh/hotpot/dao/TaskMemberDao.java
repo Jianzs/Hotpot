@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface TaskMemberDao extends JpaRepository<TaskMemberEntity, Integer> {
-    String findMemberByGroupId = "SELECT avatar, username\n" +
+    String findMemberByGroupId = "SELECT avatar, username, id AS userId\n" +
             "FROM user\n" +
             "WHERE id IN (SELECT user_id\n" +
             "    FROM task_member\n" +
