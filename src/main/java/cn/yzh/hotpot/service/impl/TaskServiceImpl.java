@@ -7,19 +7,23 @@ import cn.yzh.hotpot.enums.TaskGroupTypeEnum;
 import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
+import cn.yzh.hotpot.pojo.dto.VillageItemDto;
 import cn.yzh.hotpot.pojo.entity.*;
 import cn.yzh.hotpot.service.TaskService;
+import cn.yzh.hotpot.service.UserService;
 import cn.yzh.hotpot.util.DatetimeUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -31,6 +35,7 @@ public class TaskServiceImpl implements TaskService {
     private TaskMemberDao taskMemberDao;
     private TaskMemberDayDao taskMemberDayDao;
     private ScoreDao scoreDao;
+    private UserService userService;
 
     @Autowired
     public TaskServiceImpl(TaskDao taskDao,
@@ -39,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
                            TaskItemDayDao taskItemDayDao,
                            TaskMemberDao taskMemberDao,
                            TaskMemberDayDao taskMemberDayDao,
-                           ScoreDao scoreDao) {
+                           ScoreDao scoreDao, UserService userService) {
         this.taskDao = taskDao;
         this.taskGroupDao = taskGroupDao;
         this.taskItemDao = taskItemDao;
@@ -47,6 +52,7 @@ public class TaskServiceImpl implements TaskService {
         this.taskMemberDao = taskMemberDao;
         this.taskMemberDayDao = taskMemberDayDao;
         this.scoreDao = scoreDao;
+        this.userService = userService;
     }
 
     @Override
@@ -246,6 +252,30 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<NotStartedTaskListProjection> getNotStartedList(Integer userId) {
         return taskDao.findNotStartedTaskList(userId, DatetimeUtil.getNowTimestamp());
+    }
+
+    @Override
+    public List<OptionDto<String, Object>> getTaskVillage(Pageable pageable) {
+        Page<VillageItemProjection> village = taskGroupDao.findTaskVillage(pageable);
+
+        List<OptionDto<String, Object>> res = new ArrayList<>();
+        res.add(new OptionDto<>("count", village.getTotalPages()));
+        List<VillageItemDto> items = new ArrayList<>();
+
+        List<VillageItemProjection> content = village.getContent();
+        for (VillageItemProjection a : content) {
+            VillageItemDto item = new VillageItemDto(a);
+            UserEntity sponsor = userService.getById(a.getSponsorId());
+            if (sponsor == null) continue;
+            item.setSponsorAvatar(sponsor.getAvatar());
+            item.setSponsorName(sponsor.getUsername());
+            List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(a.getGroupId());
+            item.setMembers(members);
+            items.add(item);
+        }
+
+        res.add(new OptionDto<>("items", items));
+        return res;
     }
 
     private List<TaskMemberDayEntity> buildTaskMemberDays(TaskMemberEntity saveMember, Timestamp startTime, Timestamp endTime) {

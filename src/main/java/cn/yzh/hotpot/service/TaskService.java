@@ -33,4 +33,6 @@ public interface TaskService {
     List<OptionDto<String,Object>> getGroupSharedDetail(Integer groupId);
 
     List<NotStartedTaskListProjection> getNotStartedList(Integer userId);
+
+    List<OptionDto<String, Object>> getTaskVillage(Pageable pageable);
 }

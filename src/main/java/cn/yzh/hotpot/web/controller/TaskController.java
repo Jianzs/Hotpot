@@ -3,10 +3,12 @@ package cn.yzh.hotpot.web.controller;
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.NotStartedTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
+import cn.yzh.hotpot.dao.projection.VillageItemProjection;
 import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.dto.ResponseDto;
+import cn.yzh.hotpot.pojo.dto.VillageItemDto;
 import cn.yzh.hotpot.service.TaskService;
 import cn.yzh.hotpot.util.JWTUtil;
 import org.json.JSONObject;
@@ -23,8 +25,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/task")
 public class TaskController {
-    @Value("${task.perPageNum}")
-    private Integer PER_PAGE_NUM;
+    @Value("${task.list.perPageNum}")
+    private Integer TASK_LIST_PER_PAGE_NUM;
+    @Value("${task.village.perPageNum}")
+    private Integer VILLAGE_PER_PAGE_NUM;
     private TaskService taskService;
 
     @Autowired
@@ -55,7 +59,7 @@ public class TaskController {
 
         Page<HistoryTaskListProjection> taskList = taskService.getHistoryTaskList(userId, PageRequest.of(
                 pageNum,
-                PER_PAGE_NUM,
+                TASK_LIST_PER_PAGE_NUM,
                 Sort.Direction.DESC,
                 "I.end_time"
         ));
@@ -190,6 +194,28 @@ public class TaskController {
 
         ResponseDto responseDto = ResponseDto.succeed();
         res.forEach((item) -> responseDto.setData(item.getOptKey(), item.getOptVal()));
+        return responseDto;
+    }
+
+    /**
+     * 任务村
+     */
+    @GetMapping("/village/{page}")
+    public ResponseDto getTaskVillage(@PathVariable("page") Integer page) {
+        if (page <= 0) {
+            return ResponseDto.failed("Page Can't Less Than 0.");
+        }
+        page--;
+        List<OptionDto<String, Object>> result = taskService.getTaskVillage(PageRequest.of(
+                page,
+                VILLAGE_PER_PAGE_NUM
+        ));
+
+        ResponseDto responseDto = ResponseDto.succeed();
+        if (result != null) {
+            result.forEach((opt) -> responseDto.setData(opt.getOptKey(), opt.getOptVal()));
+        }
+
         return responseDto;
     }
 }

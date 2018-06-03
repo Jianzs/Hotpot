@@ -19,9 +19,10 @@
 	* [完成一个任务](#完成一个任务)
 	* [加入任务组](#加入任务组)
 	* [打分](#打分)
-	* **[查看任务详情](#查看任务详情)**
+	* [查看任务详情](#查看任务详情)
 	* [查看未开始任务](#查看未开始任务)
-	* [查看简单任务详情](#查看简单任务详情)
+	* [访客查看任务详情](#访客查看任务详情)
+	* **[获取任务村列表](#获取任务村列表)**
 
     
 ## 用户
@@ -381,7 +382,6 @@
         * 0: 多人任务
         * 1: 个人任务
     * 当`type == 0` 即为多人任务时，才有`members`字段
-    * `members`为除当前用户外的其他人
     ```json
     {
         "status": 0,
@@ -466,6 +466,84 @@
                 {
                     "itemId": "112",
                     "content": "还好好"
+                }
+            ]
+        }
+    }
+    ```
+    
+### 获取任务村列表
+* URL： /task/village/{page}
+    * page 从1开始
+* METHOD: GET
+* REQUEST: Null
+* RESPONSE:
+    ```json
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {
+            "count": 2,  总页数
+            "items": [
+                {
+                    "groupId": 5,
+                    "title": "测试",
+                    "startTime": "2018-06-03T22:59:00.000+0000",
+                    "endTime": "2018-06-03T22:59:00.000+0000",
+                    "sponsorName": "Stranger",
+                    "sponsorAvatar": "url...",
+                    "members": [
+                        {
+                            "username": "Stranger",
+                            "avatar": "url...",
+                            "userId": 9
+                        }
+                    ]
+                },
+                {
+                    "groupId": 6,
+                    "title": "测试",
+                    "startTime": "2018-06-03T22:59:00.000+0000",
+                    "endTime": "2018-06-03T22:59:00.000+0000",
+                    "sponsorName": "Stranger",
+                    "sponsorAvatar": "url...",
+                    "members": [
+                        {
+                            "username": "Stranger",
+                            "avatar": "url...",
+                            "userId": 9
+                        }
+                    ]
+                },
+                {
+                    "groupId": 7,
+                    "title": "测试",
+                    "startTime": "2018-06-03T22:59:00.000+0000",
+                    "endTime": "2018-06-03T22:59:00.000+0000",
+                    "sponsorName": "Stranger",
+                    "sponsorAvatar": "url...",
+                    "members": [
+                        {
+                            "username": "Stranger",
+                            "avatar": "url...",
+                            "userId": 9
+                        }
+                    ]
+                },
+                {
+                    "groupId": 8,
+                    "title": "测试",
+                    "startTime": "2018-06-03T22:59:00.000+0000",
+                    "endTime": "2018-06-03T22:59:00.000+0000",
+                    "sponsorName": "Stranger",
+                    "sponsorAvatar": "url...",
+                    "members": [
+                        {
+                            "username": "Stranger",
+                            "avatar": "url...",
+                            "userId": 9
+                        }
+                    ]
                 }
             ]
         }

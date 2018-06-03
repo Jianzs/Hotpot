@@ -96,4 +96,9 @@ public class UserServiceImpl implements UserService {
     public Page<ScoreHistoryProjection> getScoreHistory(Integer userId, PageRequest page) {
         return userDao.getScoreHistory(userId, DatetimeUtil.getTodayNoonTimestamp(), page);
     }
+
+    @Override
+    public UserEntity getById(Integer userId) {
+        return userDao.getById(userId);
+    }
 }

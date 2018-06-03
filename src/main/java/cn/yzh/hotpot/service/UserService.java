@@ -37,4 +37,6 @@ public interface UserService {
     Page<UserRankProjection> getRank(Pageable page);
 
     Page<ScoreHistoryProjection> getScoreHistory(Integer userId, PageRequest page);
+
+    UserEntity getById(Integer sponsorId);
 }
