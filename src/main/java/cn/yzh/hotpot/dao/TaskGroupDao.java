@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface TaskGroupDao  extends JpaRepository<TaskGroupEntity, Integer> {
 
     GroupDetailSummary getSummaryById(Integer groupId);
 
-    ArrayList<GroupIdProjection> getIdByTypeAndIsPublic(Integer type, boolean isPublic);
+    ArrayList<GroupIdProjection> getIdByTypeAndIsPublicAndEndTimeGreaterThan(Integer type, boolean isPublic, Timestamp curTime);
 
     @Query(value = getTaskVillage, nativeQuery = true)
     List<VillageItemProjection> findByIdIn(@Param("ids") Collection<Integer> ids);

@@ -252,9 +252,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<VillageItemDto> getTaskVillage(Integer limit) {
-        ArrayList<GroupIdProjection> ids = taskGroupDao.getIdByTypeAndIsPublic(
+        ArrayList<GroupIdProjection> ids = taskGroupDao.getIdByTypeAndIsPublicAndEndTimeGreaterThan(
                 TaskGroupTypeEnum.PEOPLE.getValue(),
-                true);
+                true,
+                DatetimeUtil.getNowTimestamp());
         Set<Integer> randIds = getRandIds(ids, limit);
 
         List<VillageItemProjection> village = taskGroupDao.findByIdIn(randIds);
