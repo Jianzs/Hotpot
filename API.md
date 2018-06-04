@@ -494,6 +494,7 @@
                     "endTime": "2018-06-03T22:59:00.000+0000",
                     "sponsorName": "Stranger",
                     "sponsorAvatar": "url...",
+                    "sponsorCollage": "XDU",
                     "members": [
                         {
                             "username": "Stranger",
@@ -509,6 +510,7 @@
                     "endTime": "2018-06-03T22:59:00.000+0000",
                     "sponsorName": "Stranger",
                     "sponsorAvatar": "url...",
+                    "sponsorCollage": "XDU",
                     "members": [
                         {
                             "username": "Stranger",
@@ -524,6 +526,7 @@
                     "endTime": "2018-06-03T22:59:00.000+0000",
                     "sponsorName": "Stranger",
                     "sponsorAvatar": "url...",
+                    "sponsorCollage": "XDU",
                     "members": [
                         {
                             "username": "Stranger",
@@ -539,6 +542,7 @@
                     "endTime": "2018-06-03T22:59:00.000+0000",
                     "sponsorName": "Stranger",
                     "sponsorAvatar": "url...",
+                    "sponsorCollage": "XDU",
                     "members": [
                         {
                             "username": "Stranger",

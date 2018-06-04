@@ -270,8 +270,11 @@ public class TaskServiceImpl implements TaskService {
             VillageItemDto item = new VillageItemDto(a);
             UserEntity sponsor = userService.getById(a.getSponsorId());
             if (sponsor == null) continue;
+
             item.setSponsorAvatar(sponsor.getAvatar());
             item.setSponsorName(sponsor.getUsername());
+            item.setSponsorCollage(sponsor.getCollage());
+
             List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(a.getGroupId());
             item.setMembers(members);
             items.add(item);

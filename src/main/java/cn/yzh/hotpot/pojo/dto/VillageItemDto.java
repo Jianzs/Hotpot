@@ -13,6 +13,8 @@ public class VillageItemDto {
     private Timestamp endTime;
     private String sponsorName;
     private String sponsorAvatar;
+    private String sponsorCollage;
+
     private List<GroupDetailMember> members;
 
     public VillageItemDto(VillageItemProjection village) {
@@ -20,6 +22,14 @@ public class VillageItemDto {
         this.title = village.getTitle();
         this.startTime = village.getStartTime();
         this.endTime = village.getEndTime();
+    }
+
+    public String getSponsorCollage() {
+        return sponsorCollage;
+    }
+
+    public void setSponsorCollage(String sponsorCollage) {
+        this.sponsorCollage = sponsorCollage;
     }
 
     public Integer getGroupId() {
