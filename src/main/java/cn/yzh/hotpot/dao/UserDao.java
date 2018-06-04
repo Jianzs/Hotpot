@@ -21,18 +21,23 @@ public interface UserDao extends JpaRepository<UserEntity, Integer> {
     String countRank = "SELECT count(*)\n" +
             "FROM user";
     String getScoreHistory = "SELECT C.current_day AS currentDay, C.score, C.title, D.avatar AS sponsorAvatar\n" +
-            "FROM (SELECT A.current_day, A.score, B.title, B.sponsor_id\n" +
-            "        FROM (SELECT group_id, current_day, score\n" +
+            "FROM (SELECT A.current_day, A.score, B.title, B.sponsor_id, B.type\n" +
+            "    FROM (SELECT group_id, current_day, score\n" +
             "        FROM task_member_day\n" +
             "        WHERE user_id = :userId AND \n" +
             "            current_day < :curDay AND \n" +
             "            score IS NOT NULL) AS A\n" +
-            "        LEFT JOIN task_group AS B ON (A.group_id = B.id)) AS C\n" +
+            "        LEFT JOIN task_group AS B ON (A.group_id = B.id)\n" +
+            "    WHERE type = :type) AS C\n" +
             "    LEFT JOIN user AS D ON (C.sponsor_id = D.id)";
     String countScoreHistory = "SELECT count(*)\n" +
-            "FROM task_member_day\n" +
-            "WHERE user_id = :userId AND current_day < :curDay\n" +
-            "    AND score IS NOT NULL";
+            "FROM (SELECT group_id \n" +
+            "    FROM task_member_day\n" +
+            "    WHERE user_id = :userId AND \n" +
+            "        current_day < :curDay AND \n" +
+            "        score IS NOT NULL) AS A\n" +
+            "    LEFT JOIN task_group AS B ON (A.group_id = B.id)\n" +
+            "    WHERE type = :type";
 
     UserEntity getByOpenid(String openId);
 
@@ -46,7 +51,8 @@ public interface UserDao extends JpaRepository<UserEntity, Integer> {
     Page<UserRankProjection> findRank(Pageable page);
 
     @Query(value = getScoreHistory, countQuery = countScoreHistory, nativeQuery = true)
-    Page<ScoreHistoryProjection> getScoreHistory(@Param("userId") Integer userId,
+    Page<ScoreHistoryProjection> getScoreHistoryByType(@Param("userId") Integer userId,
+                                                 @Param("type") Integer type,
                                                  @Param("curDay")Timestamp curDay,
                                                  Pageable page);
 }

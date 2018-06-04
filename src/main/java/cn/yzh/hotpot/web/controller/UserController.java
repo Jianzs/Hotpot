@@ -123,8 +123,9 @@ public class UserController {
     /**
      * 积分记录
      */
-    @GetMapping("/score/history/{pageNum}")
-    public ResponseDto getScoreHistory(@PathVariable("pageNum") Integer pageNum,
+    @GetMapping("/score/history/{type}/{pageNum}")
+    public ResponseDto getScoreHistory(@PathVariable("type") Integer type,
+                                       @PathVariable("pageNum") Integer pageNum,
                                        HttpServletRequest request) {
         if (pageNum <= 0) {
             return ResponseDto.failed("Page Number is Wrong.");
@@ -132,7 +133,8 @@ public class UserController {
         pageNum--;
 
         Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
-        Page<ScoreHistoryProjection> scoreHistory = userService.getScoreHistory(userId,
+        Page<ScoreHistoryProjection> scoreHistory = userService.getScoreHistoryByType(userId,
+                type,
                 PageRequest.of(pageNum,
                         PER_PAGE_SCORE_HISTORY,
                         Sort.Direction.DESC,
