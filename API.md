@@ -157,7 +157,8 @@
                 {
                     "score": 30,
                     "title": "title",
-                    "currentDay": "2018-05-11T04:00:00.000+0000"
+                    "currentDay": "2018-05-11T04:00:00.000+0000",
+                    "sponsorAvatar": "url..."
                 }
             ],
             "pageSum": 1

@@ -43,11 +43,11 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             user = new UserEntity();
             user.setAvatar("https://avatars0.githubusercontent.com/u/20160766?s=460&v=4");
-            user.setUsername("Stranger");
-            user.setCollage("Collage");
+            user.setUsername("熟悉的陌生人");
+            user.setCollage("未知");
             user.setGender(UserGenderEnum.MALE.getValue());
             user.setGrade(UserGradeEnum.COLLEGE_ONE.getValue());
-            user.setLocation("中国");
+            user.setLocation("中国某村");
             user.setBirthday(DatetimeUtil.getTodayNoonTimestamp());
 
             user.setOpenid(openId);

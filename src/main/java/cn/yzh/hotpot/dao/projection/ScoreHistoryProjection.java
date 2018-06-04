@@ -6,4 +6,5 @@ public interface ScoreHistoryProjection {
     Integer getScore();
     String getTitle();
     Timestamp getCurrentDay();
+    String getSponsorAvatar();
 }

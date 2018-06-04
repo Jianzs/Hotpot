@@ -260,12 +260,9 @@ public class TaskServiceImpl implements TaskService {
 
         List<VillageItemProjection> village = taskGroupDao.findByIdIn(randIds);
 
-    //    List<OptionDto<String, Object>> res = new ArrayList<>();
         List<VillageItemDto> items = new ArrayList<>();
 
-        // 明天删掉
-        //res.add(new OptionDto<>("count", 4));
-
+        int count = 0;
         for (VillageItemProjection a : village) {
             VillageItemDto item = new VillageItemDto(a);
             UserEntity sponsor = userService.getById(a.getSponsorId());
@@ -278,9 +275,9 @@ public class TaskServiceImpl implements TaskService {
             List<GroupDetailMember> members = taskMemberDao.findAllMemberOfGroup(a.getGroupId());
             item.setMembers(members);
             items.add(item);
+            if (++count == 4) break;
         }
 
-//        res.add(new OptionDto<>("items", items));
         return items;
     }
 
