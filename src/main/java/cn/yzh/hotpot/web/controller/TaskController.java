@@ -200,22 +200,10 @@ public class TaskController {
     /**
      * 任务村
      */
-    @GetMapping("/village/{page}")
-    public ResponseDto getTaskVillage(@PathVariable("page") Integer page) {
-        if (page <= 0) {
-            return ResponseDto.failed("Page Can't Less Than 0.");
-        }
-        page--;
-        List<OptionDto<String, Object>> result = taskService.getTaskVillage(PageRequest.of(
-                page,
-                VILLAGE_PER_PAGE_NUM
-        ));
+    @GetMapping({"/village/{page}", "/village"})
+    public ResponseDto getTaskVillage() {
+        List<VillageItemDto> items = taskService.getTaskVillage(VILLAGE_PER_PAGE_NUM);
 
-        ResponseDto responseDto = ResponseDto.succeed();
-        if (result != null) {
-            result.forEach((opt) -> responseDto.setData(opt.getOptKey(), opt.getOptVal()));
-        }
-
-        return responseDto;
+        return ResponseDto.succeed().setData("items", items);
     }
 }

@@ -16,15 +16,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -251,19 +247,25 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<NotStartedTaskListProjection> getNotStartedList(Integer userId) {
-        return taskDao.findNotStartedTaskList(userId, DatetimeUtil.getNowTimestamp());
+        return taskDao.findNotStartedTaskList(userId, DatetimeUtil.getTodayMoonTimestamp());
     }
 
     @Override
-    public List<OptionDto<String, Object>> getTaskVillage(Pageable pageable) {
-        Page<VillageItemProjection> village = taskGroupDao.findTaskVillage(pageable);
+    public List<VillageItemDto> getTaskVillage(Integer limit) {
+        ArrayList<GroupIdProjection> ids = taskGroupDao.getIdByTypeAndIsPublic(
+                TaskGroupTypeEnum.PEOPLE.getValue(),
+                true);
+        Set<Integer> randIds = getRandIds(ids, limit);
 
-        List<OptionDto<String, Object>> res = new ArrayList<>();
-        res.add(new OptionDto<>("count", village.getTotalPages()));
+        List<VillageItemProjection> village = taskGroupDao.findByIdIn(randIds);
+
+    //    List<OptionDto<String, Object>> res = new ArrayList<>();
         List<VillageItemDto> items = new ArrayList<>();
 
-        List<VillageItemProjection> content = village.getContent();
-        for (VillageItemProjection a : content) {
+        // 明天删掉
+        //res.add(new OptionDto<>("count", 4));
+
+        for (VillageItemProjection a : village) {
             VillageItemDto item = new VillageItemDto(a);
             UserEntity sponsor = userService.getById(a.getSponsorId());
             if (sponsor == null) continue;
@@ -274,8 +276,31 @@ public class TaskServiceImpl implements TaskService {
             items.add(item);
         }
 
-        res.add(new OptionDto<>("items", items));
-        return res;
+//        res.add(new OptionDto<>("items", items));
+        return items;
+    }
+
+    // 任务村随机下标
+    private Set<Integer> getRandIds(ArrayList<GroupIdProjection> ids, int limit) {
+        Integer len = ids.size();
+        Set<Integer> randIds = new TreeSet<>();
+        Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
+        if (len < limit) {
+            ids.forEach((id) -> randIds.add(id.getId()));
+            return randIds;
+        }
+
+        int count = 0;
+        while (count < limit) {
+            int index = random.nextInt(len);
+            while (randIds.contains(ids.get(index).getId())) {
+                index = random.nextInt(len);
+            }
+            randIds.add(ids.get(index).getId());
+            ++count;
+        }
+        return randIds;
     }
 
     private List<TaskMemberDayEntity> buildTaskMemberDays(TaskMemberEntity saveMember, Timestamp startTime, Timestamp endTime) {

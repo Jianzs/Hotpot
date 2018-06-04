@@ -18,7 +18,7 @@ import java.util.List;
 public interface TaskDao extends JpaRepository<TaskGroupEntity, Integer> {
     String getNotStartedTaskList = "SELECT id AS groupId, start_time AS startTime, title, type, total_task AS totalTask\n" +
             "FROM task_group\n" +
-            "WHERE start_time > :curTime AND \n" +
+            "WHERE start_time >= :todayMoon AND\n" +
             "    id IN (SELECT group_id\n" +
             "        FROM task_member\n" +
             "        WHERE user_id = :userId)\n" +
@@ -38,7 +38,7 @@ public interface TaskDao extends JpaRepository<TaskGroupEntity, Integer> {
             "    WHERE A.end_time >= :curTime\n" +
             "        AND A.total_task = B.finished_task\n" +
             "    GROUP BY B.group_id) AS D ON (C.group_id = D.group_id)\n" +
-            "ORDER BY C.end_time";
+            "ORDER BY time(C.end_time)";
 
     String countHistoryTaskList = "select count(*) \n" +
             "FROM task_member AS A LEFT JOIN task_group AS B ON (A.group_id = B.id)\n" +
@@ -72,5 +72,5 @@ public interface TaskDao extends JpaRepository<TaskGroupEntity, Integer> {
 
     @Query(value = getNotStartedTaskList, nativeQuery = true)
     List<NotStartedTaskListProjection> findNotStartedTaskList(@Param("userId") Integer userId,
-                                                              @Param("curTime") Timestamp curTime);
+                                                              @Param("todayMoon") Timestamp todayMoon);
 }

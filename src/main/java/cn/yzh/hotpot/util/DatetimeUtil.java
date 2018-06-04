@@ -52,7 +52,7 @@ public class DatetimeUtil {
     public static Timestamp getMoonTimestamp(long date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(date));
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.HOUR_OF_DAY, 24);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -75,5 +75,9 @@ public class DatetimeUtil {
         cal2.setTime(date2);
         cal2.set(2000, Calendar.JANUARY, 1);
         return cal1.compareTo(cal2);
+    }
+
+    public static Timestamp getTodayMoonTimestamp() {
+        return getMoonTimestamp(new Date().getTime());
     }
 }

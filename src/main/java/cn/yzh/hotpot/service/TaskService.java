@@ -6,6 +6,7 @@ import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
 import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
+import cn.yzh.hotpot.pojo.dto.VillageItemDto;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,5 +35,5 @@ public interface TaskService {
 
     List<NotStartedTaskListProjection> getNotStartedList(Integer userId);
 
-    List<OptionDto<String, Object>> getTaskVillage(Pageable pageable);
+    List<VillageItemDto> getTaskVillage(Integer limit);
 }

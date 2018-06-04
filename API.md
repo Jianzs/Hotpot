@@ -473,17 +473,19 @@
     ```
     
 ### 获取任务村列表
-* URL： /task/village/{page}
-    * page 从1开始
+* URL: /task/village
+* ~~URL： /task/village/{page} 弃用~~
+    * ~~page 从1开始~~
 * METHOD: GET
 * REQUEST: Null
 * RESPONSE:
+    * **没有count了**
     ```json
     {
         "status": 0,
         "message": "SUCCESS",
         "data": {
-            "count": 2,  总页数
+            "count": 2,  总页数——已删除
             "items": [
                 {
                     "groupId": 5,
