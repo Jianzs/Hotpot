@@ -151,6 +151,9 @@ public class TaskServiceImpl implements TaskService {
         if (taskMemberDao.existsByUserIdAndGroupId(userId, groupId)) {
             return new OptionDto<>(3, "Already in Group.");
         }
+        if (group.getType().equals(TaskGroupTypeEnum.PERSONAL.getValue())) {
+            return new OptionDto<>(4, "This Task Group is Personal.");
+        }
         // 人数加 1
         group.setTotalPeople(group.getTotalPeople() + 1);
         taskGroupDao.save(group);
@@ -279,6 +282,16 @@ public class TaskServiceImpl implements TaskService {
         }
 
         return items;
+    }
+
+    @Override
+    public TaskGroupEntity getById(Integer groupId) {
+        return taskGroupDao.getById(groupId);
+    }
+
+    @Override
+    public List<GroupDetailItem> getItemsByGroupId(Integer groupId) {
+        return taskItemDao.findBriefByGroupId(groupId);
     }
 
     // 任务村随机下标

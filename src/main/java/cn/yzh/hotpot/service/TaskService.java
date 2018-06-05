@@ -1,5 +1,6 @@
 package cn.yzh.hotpot.service;
 
+import cn.yzh.hotpot.dao.projection.GroupDetailItem;
 import cn.yzh.hotpot.dao.projection.HistoryTaskListProjection;
 import cn.yzh.hotpot.dao.projection.NotStartedTaskListProjection;
 import cn.yzh.hotpot.dao.projection.PendingTaskListProjection;
@@ -7,6 +8,8 @@ import cn.yzh.hotpot.exception.NoSuchMemberInGroup;
 import cn.yzh.hotpot.exception.NoSuchTaskMemberDay;
 import cn.yzh.hotpot.pojo.dto.OptionDto;
 import cn.yzh.hotpot.pojo.dto.VillageItemDto;
+import cn.yzh.hotpot.pojo.entity.TaskGroupEntity;
+import cn.yzh.hotpot.pojo.entity.UserEntity;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +39,8 @@ public interface TaskService {
     List<NotStartedTaskListProjection> getNotStartedList(Integer userId);
 
     List<VillageItemDto> getTaskVillage(Integer limit);
+
+    TaskGroupEntity getById(Integer groupId);
+
+    List<GroupDetailItem> getItemsByGroupId(Integer groupId);
 }
