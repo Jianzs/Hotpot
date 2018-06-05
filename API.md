@@ -557,3 +557,18 @@
     }
     ```
 
+## Form Id
+### 上传formId
+* URL: /formId
+* METHOD: POST
+* REQUEST:
+    * groupId
+    * formId
+* RESPONSE
+    ```JSON
+    {
+        "status": 0,
+        "message": "SUCCESS",
+        "data": {}
+    }  
+    ```
