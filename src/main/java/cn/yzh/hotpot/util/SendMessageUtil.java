@@ -20,7 +20,8 @@ public class SendMessageUtil {
 
         String accessToken = getAccessToken();
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(String.format(SEND_MESSAGE_URL, accessToken), httpEntity, String.class);
+        String res = restTemplate.postForObject(String.format(SEND_MESSAGE_URL, accessToken), httpEntity, String.class);
+        System.out.println(res);
     }
 
     private static String getAccessToken() {

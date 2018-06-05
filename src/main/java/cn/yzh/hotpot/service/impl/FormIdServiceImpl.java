@@ -14,6 +14,7 @@ import cn.yzh.hotpot.util.SendMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -63,10 +64,11 @@ public class FormIdServiceImpl implements FormIdService {
                     groupId,
                     formId,
                     group.getTitle(),
-                    group.getEndTime(),
+                    new Date(),
                     sb.toString());
         }
 
+        System.out.println(message);
         SendMessageUtil.send(message);
     }
 }

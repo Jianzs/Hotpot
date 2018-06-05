@@ -4,23 +4,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class JoinSuccMessage {
-    private static String template = "{" +
-            "  \"touser\": \"%s\"," +
-            "  \"template_id\": \"ENH-oU8L8mWvhvL2P7J8JmbWcIN-iu3bwXJmjE4iyfI\"," +
-            "  \"page\": \"/pages/task/task?groupId=%d&from=message\"," +
-            "  \"form_id\": \"%s\"," +
-            "  \"data\": {" +
-            "      \"keyword1\": {" +
-            "          \"value\": \"%s\"" +
-            "      }," +
-            "      \"keyword2\": {" +
-            "          \"value\": \"%s\"" +
+    private static String template = "{\n" +
+            "  \"touser\": \"%s\",\n" +
+            "  \"template_id\": \"ENH-oU8L8mWvhvL2P7J8JmbWcIN-iu3bwXJmjE4iyfI\",\n" +
+            "  \"page\": \"/pages/task/task?groupId=%d&from=message\",\n" +
+            "  \"form_id\": \"%s\",\n" +
+            "  \"data\": {\n" +
+            "      \"keyword1\": {\n" +
+            "          \"value\": \"%s\"\n" +
+            "      },\n" +
+            "      \"keyword2\": {\n" +
+            "          \"value\": \"%s\"\n" +
             "      },\n" +
             "      \"keyword3\": {\n" +
-            "          \"value\": \"%s\"" +
-            "      }" +
+            "          \"value\": \"%s\"\n" +
+            "      } \n" +
             "  },\n" +
-            "  \"emphasis_keyword\": \"keyword1.DATA\"" +
+            "  \"emphasis_keyword\": \"keyword1.DATA\"\n" +
             "}";
 
     public static String createMessage(String openId, Integer groupId, String formId,
