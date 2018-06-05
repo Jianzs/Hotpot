@@ -12,11 +12,20 @@ public class FormIdEntity {
 
     private Integer targetId;
     private String formId;
+    private String openId;
 
     @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private Timestamp createTime;
     @Column(columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP", updatable = false)
     private Timestamp updateTime;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 
     public Integer getId() {
         return id;
