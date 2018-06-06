@@ -562,8 +562,12 @@
 * URL: /formId
 * METHOD: POST
 * REQUEST:
-    * groupId
+    * type: 
+        * 0 上传和加入时
+        * 1 凑form_id 时
     * formId
+    * groupId
+        * 当type == 1 时，忽略
 * RESPONSE
     ```JSON
     {

@@ -1,5 +1,7 @@
 package cn.yzh.hotpot.service;
 
+import org.json.JSONObject;
+
 public interface FormIdService {
-    void uploadFormId(Integer groupId, String formId, Integer userId);
+    void uploadFormId(JSONObject jsonObject, Integer userId);
 }

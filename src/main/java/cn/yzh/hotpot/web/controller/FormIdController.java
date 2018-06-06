@@ -24,16 +24,15 @@ public class FormIdController {
 
     @PostMapping("")
     public ResponseDto uploadFormId(@RequestBody String json, HttpServletRequest request) {
+        System.out.println(json);
         Integer userId = (Integer) request.getAttribute(JWTUtil.USER_ID_KEY);
 
         JSONObject jsonObject = new JSONObject(json);
-        if (jsonObject.isNull("groupId") ||
-                jsonObject.isNull("formId")) {
-            return ResponseDto.failed("Group Id Or Form Id Can't Be Null.");
+        if (jsonObject.isNull("type") || jsonObject.isNull("formId")) {
+            return ResponseDto.failed("Type Or Form Id Can't Be Null.");
         }
 
-        formIdService.uploadFormId(jsonObject.getInt("groupId"),
-                jsonObject.getString("formId"),
+        formIdService.uploadFormId(jsonObject,
                 userId);
         return ResponseDto.succeed();
     }
